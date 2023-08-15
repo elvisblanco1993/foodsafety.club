@@ -3,7 +3,11 @@
 
     <ul class="mt-6 list-none text-sm">
         @forelse ($recalls as $recall)
-            <li class="mt-2 border border-slate-200 hover:border-red-500 transition-all px-4 py-2">
+            <li @class([
+                "mt-2 border border-slate-200 transition-all px-4 py-2",
+                'hover:border-red-500' => $recall->status === 'Ongoing',
+                'hover:border-emerald-500' => $recall->status !== 'Ongoing'
+            ])>
                 <div x-data="{ showDialog: false }">
                     <button class="w-full text-left" x-on:click="showDialog = true; $nextTick(() => $refs.dialog.showModal())">
                         <div class="sm:flex items-center">
@@ -38,8 +42,57 @@
                         </div>
                     </button>
 
-                    <dialog x-ref="dialog" x-on:click.outside="showDialog = false; $refs.dialog.close()" class="rounded-lg shadow-md max-w-5xl px-4 py-6 mx-auto w-full" style="width: 300px;">
-                        {{ $recall->recall_number }}
+                    <dialog x-ref="dialog" class="max-w-5xl rounded-lg shadow-md p-4 mx-auto">
+                        <div @class([
+                            '-m-4 px-6 py-4 flex items-center justify-between',
+                            'bg-red-500' => $recall->status === 'Ongoing',
+                            'bg-emerald-500' => $recall->status !== 'Ongoing'
+                        ])>
+                            <div class="text-white text-lg">
+                                <span class="font-bold">Recall Number:</span> {{ $recall->recall_number }}
+                            </div>
+                            <button x-on:click="showDialog = false; $refs.dialog.close()" class="align-right">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-white">
+                                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="block mt-6">
+                            <p class="mt-2 grid grid-cols-3 gap-4 px-3 py-2 hover:bg-slate-100">
+                                <strong class="col-span-1">Recall Number:</strong>
+                                <span class="col-span-2">{{ $recall->recall_number }}</span>
+                            </p>
+                            <p class="mt-2 grid grid-cols-3 gap-4 px-3 py-2 hover:bg-slate-100">
+                                <strong class="col-span-1">Status:</strong>
+                                <span class="col-span-2">{{ $recall->status }}</span>
+                            </p>
+                            <p class="mt-2 grid grid-cols-3 gap-4 px-3 py-2 hover:bg-slate-100">
+                                <strong class="col-span-1">Reported on:</strong>
+                                <span class="col-span-2">{{ $recall->report_date }}</span>
+                            </p>
+                            <p class="mt-2 grid grid-cols-3 gap-4 px-3 py-2 hover:bg-slate-100">
+                                <strong class="col-span-1">Product description:</strong>
+                                <span class="col-span-2">{{ $recall->product_description }}</span>
+                            </p>
+                            <p class="mt-2 grid grid-cols-3 gap-4 px-3 py-2 hover:bg-slate-100">
+                                <strong class="col-span-1">Reported by:</strong>
+                                <span class="col-span-2">{{ $recall->recalling_firm }}</span>
+                            </p>
+                            <p class="mt-2 grid grid-cols-3 gap-4 px-3 py-2 hover:bg-slate-100">
+                                <strong class="col-span-1">Recall reason:</strong>
+                                <span class="col-span-2">{{ $recall->reason_for_recall }}</span>
+                            </p>
+                            <p class="mt-2 grid grid-cols-3 gap-4 px-3 py-2 hover:bg-slate-100">
+                                <strong class="col-span-1">Distribution areas:</strong>
+                                <span class="col-span-2">{{ $recall->distribution_pattern }}</span>
+                            </p>
+                            <p class="mt-2 grid grid-cols-3 gap-4 px-3 py-2 hover:bg-slate-100">
+                                <strong class="col-span-1">Product quantity:</strong>
+                                <span class="col-span-2">{{ $recall->product_quantity }}</span>
+                            </p>
+                        </div>
+
                     </dialog>
 
                 </div>
