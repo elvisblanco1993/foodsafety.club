@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Livewire\Web\Signup;
+use App\Jobs\PullFDADataJob;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function() {
     return view('website.home');
+});
+
+Route::get('about', function() {
+    return view('website.about');
+});
+
+Route::get('thank-you', function() {
+    return view('website.thank-you');
+})->name('thank-you');
+
+Route::get('/refresh', function(){
+    PullFDADataJob::dispatch();
 });
 
 Route::middleware([

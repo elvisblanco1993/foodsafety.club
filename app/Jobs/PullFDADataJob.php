@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Alert;
 use App\Models\Recall;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
@@ -31,7 +32,9 @@ class PullFDADataJob implements ShouldQueue
     public function handle(): void
     {
         $response = Http::get('https://api.fda.gov/food/enforcement.json', [
-            'search' => 'report_date:[20230101 TO 20231231]',
+            'api_key' => config('api.fda.api_key'),
+            'sort'  =>  'recall_initiation_date:desc',
+            // 'search' => 'report_date:[20230101 TO 20231231]',
             'limit' => 100,
         ]);
 
@@ -62,9 +65,10 @@ class PullFDADataJob implements ShouldQueue
                         "product_description" => $item["product_description"],
                         "product_quantity" => $item["product_quantity"],
                         "reason_for_recall" => $item["reason_for_recall"],
-                        "recall_initiation_date" => $item["recall_initiation_date"],
-                        "center_classification_date" => $item["center_classification_date"],
-                        "report_date" => $item["report_date"],
+                        "recall_initiation_date" => Carbon::createFromFormat('Ymd', $item["recall_initiation_date"])->toDateString(),
+                        "center_classification_date" => Carbon::createFromFormat('Ymd', $item["center_classification_date"])->toDateString(),
+                        "report_date" => Carbon::createFromFormat('Ymd', $item["report_date"])->toDateString(),
+                        "termination_date" => (isset($item["termination_date"])) ? Carbon::createFromFormat('Ymd', $item["termination_date"])->toDateString() : null,
                         "code_info" => $item["code_info"],
                     ]
                 );

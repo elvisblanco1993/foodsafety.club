@@ -17,6 +17,17 @@
 
     </head>
     <body>
+        {{-- Header bar --}}
+        <div class="w-full h-16 sm:h-20 bg-white border-b border-b-slate-200">
+            <nav class="h-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+                <a href="/" class="text-xl font-medium">{{ __("Food Safety Club") }}</a>
+
+                <div class="flex items-center space-x-4">
+                    <a href="/about" class="text-xs uppercase tracking-widest font-medium">{{__("About")}}</a>
+                    @livewire('web.subscribe')
+                </div>
+            </nav>
+        </div>
         <div class="font-sans text-gray-900 antialiased">
             @yield('content')
         </div>

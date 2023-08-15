@@ -21,10 +21,10 @@ return new class extends Migration
             $table->string("reason_for_recall")->nullable();
             $table->string("product_quantity")->nullable();
             $table->string("code_info")->nullable();
-            $table->string("center_classification_date")->nullable();
+            $table->date("center_classification_date")->nullable();
             $table->string("distribution_pattern")->nullable();
             $table->string("product_description")->nullable();
-            $table->string("report_date")->nullable();
+            $table->date("report_date")->nullable();
             $table->string("classification")->nullable();
             $table->json("openfda")->nullable();
             $table->string("recalling_firm")->nullable();
@@ -32,8 +32,8 @@ return new class extends Migration
             $table->string("initial_firm_notification")->nullable();
             $table->string("product_type")->nullable();
             $table->string("event_id")->nullable();
-            $table->string("termination_date")->nullable();
-            $table->string("recall_initiation_date")->nullable();
+            $table->date("termination_date")->nullable();
+            $table->date("recall_initiation_date")->nullable();
             $table->string("postal_code")->nullable();
             $table->string("voluntary_mandated")->nullable();
             $table->string("status")->nullable();

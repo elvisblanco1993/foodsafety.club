@@ -12,6 +12,7 @@
             <x-input id="email-address" name="email" wire:model="email" type="email" autocomplete="email" required
                 placeholder="{{__('your@email.com')}}" class="w-full mt-3"
             />
+            <x-input-error for="email" class="text-sm mt-1" />
 
             <p class="mt-2 text-xs text-slate-500">
                 {!! __("By subscribing to the Food Safety Club, you agree to our <a href='/terms-of-service' class='text-yellow-600 underline'>terms and conditions</a>.") !!}
