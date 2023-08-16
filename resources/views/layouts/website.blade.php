@@ -32,6 +32,13 @@
             @yield('content')
         </div>
 
+        @if (!request()->routeIs('unsubscribe'))
+            <footer class="text-xs text-center py-3 border-t">
+                <p>{{__("Food Satefy Club is an experimental tool built by")}} <a href="https://linkd.page/@elvisbg" target="_blank" class="underline text-indigo-500">Elvis Blanco</a></p>
+                <a href="/unsubscribe" class="inline-block mt-1 underline text-red-500">{{__("Unsubscribe")}}</a>
+            </footer>
+        @endif
+
         @stack('modals')
 
         @livewireScripts

@@ -31,10 +31,13 @@ class PullFDADataJob implements ShouldQueue
      */
     public function handle(): void
     {
+        $today = Carbon::today()->format('Ymd');
+        $lastWeek = Carbon::today()->subWeek()->format('Ymd');
+
         $response = Http::get('https://api.fda.gov/food/enforcement.json', [
             'api_key' => config('api.fda.api_key'),
             'sort'  =>  'recall_initiation_date:desc',
-            // 'search' => 'report_date:[20230101 TO 20231231]',
+            'search' => "report_date:[$lastWeek TO $today]",
             'limit' => 100,
         ]);
 

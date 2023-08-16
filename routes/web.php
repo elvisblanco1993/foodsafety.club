@@ -24,11 +24,23 @@ Route::get('about', function() {
 });
 
 Route::get('thank-you', function() {
+    if (!session()->has('subscribed')) {
+        return redirect('/');
+    }
+    session()->remove('subscribed');
     return view('website.thank-you');
 })->name('thank-you');
 
 Route::get('/refresh', function(){
     PullFDADataJob::dispatch();
+});
+
+Route::get('/unsubscribe', function(){
+    return view('website.unsubscribe');
+})->name('unsubscribe');
+
+Route::get('/terms-of-service', function(){
+    return view('website.terms');
 });
 
 Route::middleware([

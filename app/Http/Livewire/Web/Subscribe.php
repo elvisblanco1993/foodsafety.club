@@ -25,6 +25,8 @@ class Subscribe extends Component
             'email' => $this->email,
         ]);
 
+        session()->push('subscribed', 1);
+
         return redirect()->route('thank-you');
     }
 }
